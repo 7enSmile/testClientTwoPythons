@@ -73,6 +73,6 @@
 # Flags for Clang Code Model
 *.cxxflags
 *.cflags
-*pro.user
+*.pro.user
 
 # End of https://www.toptal.com/developers/gitignore/api/qtcreator,c++
