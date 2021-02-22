@@ -1,6 +1,7 @@
 TEMPLATE-app
 
 QT+=widgets
+QT+=network
 
 SOURCES += \
         gamewindow.cpp \
