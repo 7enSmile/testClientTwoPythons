@@ -8,7 +8,7 @@ GameWindow::GameWindow()
 
     drowElements();
     socket=new QTcpSocket(this);
-    socket->connectToHost("127.0.0.1",87);
+    socket->connectToHost("127.0.0.1",86);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockConnect()));
     char str[100];
     std::string str2="{\"globalType\":\"connection\",\"type\":\"test\"}\r\n\r\n";
