@@ -26,8 +26,8 @@ public slots:
 private:
     static const int DOT_WIDTH=40;
     static const int DOT_HIGHT=40;
-    static const int FILD_WIDTH=15;
-    static const int FILD_HIGHT=15;
+    static const int FILD_WIDTH=20;
+    static const int FILD_HIGHT=20;
     void drowWindow();
     void paintEvent(QPaintEvent *event)override;
     void drowArea();

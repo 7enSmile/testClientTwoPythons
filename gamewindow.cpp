@@ -2,12 +2,13 @@
 
 GameWindow::GameWindow()
 {
+    QWidget::setFocusPolicy(Qt::StrongFocus);
     resize(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH,DOT_HIGHT*FILD_HIGHT);
     this->setWindowTitle("TwoPythons");
-    QWidget::setFocusPolicy(Qt::StrongFocus);
+
     drowElements();
     socket=new QTcpSocket(this);
-    socket->connectToHost("127.0.0.1",86);
+    socket->connectToHost("127.0.0.1",87);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockConnect()));
     char str[100];
     std::string str2="{\"globalType\":\"connection\",\"type\":\"test\"}\r\n\r\n";
@@ -83,7 +84,7 @@ void GameWindow::drowElements()
 void GameWindow::drowPython()
 {
     QPainter painter(this);
-    painter.setBrush((QBrush(Qt::red)));
+     painter.setBrush((QBrush(Qt::red)));
     for(int i=0;i<dots.size();i++){
 
        painter.drawRect(QRect(DOT_HIGHT*dots[i].rx(), DOT_WIDTH*dots[i].ry(), DOT_WIDTH, DOT_HIGHT));
@@ -94,6 +95,7 @@ void GameWindow::drowPython()
 
 void GameWindow::sockConnect()
 {
+
     data = QString(socket->readLine()).trimmed();
     doc=QJsonDocument::fromJson(data.toUtf8(),&docERR);
     QPoint teamp;
