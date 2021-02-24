@@ -20,7 +20,7 @@ class GameWindow:public QWidget
 
 public:
     GameWindow();
-    void keyPressEvent(QKeyEvent *event)override;
+    void keyPressEvent(QKeyEvent *)override;
 public slots:
     void sockConnect();
 private:

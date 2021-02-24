@@ -2,13 +2,15 @@
 
 GameWindow::GameWindow()
 {
-    QWidget::setFocusPolicy(Qt::StrongFocus);
+    setFocus();
+
     resize(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH,DOT_HIGHT*FILD_HIGHT);
     this->setWindowTitle("TwoPythons");
 
     drowElements();
     socket=new QTcpSocket(this);
-    socket->connectToHost("127.0.0.1",58);
+
+    socket->connectToHost("192.168.9.4",58);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockConnect()));
     char str[100];
     std::string str2="{\"globalType\":\"connection\",\"type\":\"test\"}\r\n\r\n";
@@ -19,6 +21,7 @@ GameWindow::GameWindow()
 
 void GameWindow::keyPressEvent(QKeyEvent *event)
 {
+
     std::string strCallback;
     char str[100];
     int key=event->key();
@@ -109,6 +112,7 @@ void GameWindow::drowFruits()
 
 void GameWindow::sockConnect()
 {
+
 
     data = QString(socket->readLine()).trimmed();
 
