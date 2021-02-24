@@ -41,6 +41,7 @@ private:
     QJsonDocument doc;
     QJsonParseError docERR;
     QVector<QPoint>dots;
+    QVector<QPoint>dots2;
     QVector<QPoint>fruits;
     void drowFruits();
 
