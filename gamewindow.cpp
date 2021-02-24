@@ -8,7 +8,7 @@ GameWindow::GameWindow()
 
     drowElements();
     socket=new QTcpSocket(this);
-    socket->connectToHost("127.0.0.1",55);
+    socket->connectToHost("127.0.0.1",58);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockConnect()));
     char str[100];
     std::string str2="{\"globalType\":\"connection\",\"type\":\"test\"}\r\n\r\n";
@@ -87,8 +87,7 @@ void GameWindow::drowPython(QVector<QPoint>inDots,Qt::GlobalColor color)
     QPainter painter(this);
      painter.setBrush(color);
     for(int i=0;i<inDots.size();i++){
-
-       painter.drawRect(QRect(DOT_HIGHT*dots[i].rx(), DOT_WIDTH*dots[i].ry(), DOT_WIDTH, DOT_HIGHT));
+       painter.drawRect(QRect(DOT_HIGHT*inDots[i].rx(), DOT_WIDTH*inDots[i].ry(), DOT_WIDTH, DOT_HIGHT));
 
     }
 
@@ -112,18 +111,27 @@ void GameWindow::sockConnect()
 {
 
     data = QString(socket->readLine()).trimmed();
+
     doc=QJsonDocument::fromJson(data.toUtf8(),&docERR);
     QPoint teamp;
     if(docERR.errorString()=="no error occurred")
     {
+
         if(doc.object().value(("type")).toString()=="setDisplay"){
             QJsonArray docArOne=doc.object().value("coordinatesPython1").toArray();
+            QJsonArray docArThree=doc.object().value("coordinatesPython2").toArray();
             QJsonArray docArTwo=doc.object().value("coordinatesFruits").toArray();
             for(int i=0;i<docArOne.count();i++)
             {
               teamp.rx()=docArOne[i].toObject().value("x").toString().toInt();
               teamp.ry()=docArOne[i].toObject().value("y").toString().toInt();
               dots.append(teamp);
+            }
+            for(int i=0;i<docArThree.count();i++)
+            {
+              teamp.rx()=docArThree[i].toObject().value("x").toString().toInt();
+              teamp.ry()=docArThree[i].toObject().value("y").toString().toInt();
+              dots2.append(teamp);
             }
             for(int i=0;i<docArTwo.count();i++)
             {
@@ -133,8 +141,10 @@ void GameWindow::sockConnect()
             }
 
         }
+
         repaint();
         dots.clear();
+        dots2.clear();
         fruits.clear();
     }
 }
@@ -145,5 +155,6 @@ void GameWindow::drowWindow()
     drowArea();
     drowFruits();
     drowPython(dots,Qt::red);
+    drowPython(dots2,Qt::blue);
 
 }
