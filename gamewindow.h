@@ -32,7 +32,7 @@ private:
     void paintEvent(QPaintEvent *event)override;
     void drowArea();
     void drowElements();
-    void drowPython();
+    void drowPython(QVector<QPoint>,Qt::GlobalColor);
     QPushButton *buttExit;
     QLabel *score;
     QLabel *timer;
@@ -41,6 +41,8 @@ private:
     QJsonDocument doc;
     QJsonParseError docERR;
     QVector<QPoint>dots;
+    QVector<QPoint>fruits;
+    void drowFruits();
 
 
 };

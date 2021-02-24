@@ -8,7 +8,7 @@ GameWindow::GameWindow()
 
     drowElements();
     socket=new QTcpSocket(this);
-    socket->connectToHost("127.0.0.1",86);
+    socket->connectToHost("127.0.0.1",55);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockConnect()));
     char str[100];
     std::string str2="{\"globalType\":\"connection\",\"type\":\"test\"}\r\n\r\n";
@@ -81,15 +81,30 @@ void GameWindow::drowElements()
 
 }
 
-void GameWindow::drowPython()
+
+void GameWindow::drowPython(QVector<QPoint>inDots,Qt::GlobalColor color)
 {
     QPainter painter(this);
-     painter.setBrush((QBrush(Qt::red)));
-    for(int i=0;i<dots.size();i++){
+     painter.setBrush(color);
+    for(int i=0;i<inDots.size();i++){
 
        painter.drawRect(QRect(DOT_HIGHT*dots[i].rx(), DOT_WIDTH*dots[i].ry(), DOT_WIDTH, DOT_HIGHT));
 
     }
+
+}
+
+void GameWindow::drowFruits()
+{
+    QPainter painter(this);
+     painter.setBrush((QBrush(Qt::green)));
+
+    for(int i=0;i<fruits.size();i++){
+
+       painter.drawRect(QRect(DOT_HIGHT*fruits[i].rx(), DOT_WIDTH*fruits[i].ry(), DOT_WIDTH, DOT_HIGHT));
+
+    }
+
 
 }
 
@@ -102,17 +117,25 @@ void GameWindow::sockConnect()
     if(docERR.errorString()=="no error occurred")
     {
         if(doc.object().value(("type")).toString()=="setDisplay"){
-            QJsonArray docAr=doc.object().value("coordinatesPython1").toArray();
-            for(int i=0;i<docAr.count();i++)
+            QJsonArray docArOne=doc.object().value("coordinatesPython1").toArray();
+            QJsonArray docArTwo=doc.object().value("coordinatesFruits").toArray();
+            for(int i=0;i<docArOne.count();i++)
             {
-              teamp.rx()=docAr[i].toObject().value("x").toString().toInt();
-              teamp.ry()=docAr[i].toObject().value("y").toString().toInt();
+              teamp.rx()=docArOne[i].toObject().value("x").toString().toInt();
+              teamp.ry()=docArOne[i].toObject().value("y").toString().toInt();
               dots.append(teamp);
             }
-            repaint();
-        }
+            for(int i=0;i<docArTwo.count();i++)
+            {
+              teamp.rx()=docArTwo[i].toObject().value("x").toString().toInt();
+              teamp.ry()=docArTwo[i].toObject().value("y").toString().toInt();
+              fruits.append(teamp);
+            }
 
+        }
+        repaint();
         dots.clear();
+        fruits.clear();
     }
 }
 
@@ -120,5 +143,7 @@ void GameWindow::sockConnect()
 void GameWindow::drowWindow()
 {
     drowArea();
-    drowPython();
+    drowFruits();
+    drowPython(dots,Qt::red);
+
 }
