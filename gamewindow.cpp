@@ -97,9 +97,16 @@ void GameWindow::drowPythons()
 
         QPainter painter(this);
         QBrush brush;
+        QColor color=pythons[i]->color;
+        color.setAlpha(180);
 
-       painter.setBrush(QBrush(pythons[i]->color));
+
        for(int j=0;j<pythons[i]->dots.size();j++){
+
+           painter.setBrush(QBrush(pythons[i]->color));
+           if(j==0){
+               painter.setBrush(QBrush(color));
+           }
 
             painter.drawRect(QRect(DOT_HIGHT*pythons[i]->dots[j].rx(), DOT_WIDTH*pythons[i]->dots[j].ry(), DOT_WIDTH, DOT_HIGHT));
 
