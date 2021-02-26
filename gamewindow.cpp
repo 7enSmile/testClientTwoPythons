@@ -28,20 +28,20 @@ void GameWindow::keyPressEvent(QKeyEvent *event)
     int key=event->key();
     switch (key) {
     case Qt::Key_Left:
-        qDebug()<<"left";
+
         strCallback="{\"globalType\":\"game\",\"type\":\"setDirectionPython\",\"directionPython\":\"left\"}\r\n\r\n";
         break;
     case Qt::Key_Right:
-        qDebug()<<"right";
+
         strCallback="{\"globalType\":\"game\",\"type\":\"setDirectionPython\",\"directionPython\":\"right\"}\r\n\r\n";
         break;
     case Qt::Key_Down:
-        qDebug()<<"down";
+
          strCallback="{\"globalType\":\"game\",\"type\":\"setDirectionPython\",\"directionPython\":\"down\"}\r\n\r\n";
         break;
 
     case Qt::Key_Up:
-        qDebug()<<"up";
+
         strCallback="{\"globalType\":\"game\",\"type\":\"setDirectionPython\",\"directionPython\":\"up\"}\r\n\r\n";
         break;
 
@@ -73,15 +73,20 @@ void GameWindow::drowArea()
 void GameWindow::drowElements()
 {
     buttExit = new QPushButton("Выход",this);
-    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-125,DOT_HIGHT*FILD_HIGHT-50),QSize(100,50)));
+    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-150,DOT_HIGHT*FILD_HIGHT-70),QSize(100,50)));
     score = new QLabel(this);
-    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-125,FILD_HIGHT),QSize(100,50)));
+    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-150,FILD_HIGHT),QSize(100,50)));
     score->setStyleSheet(QString("font-size: %1px").arg(20));;
     score->setText("Очки: 0");
     timer = new QLabel(this);
-    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-136,FILD_HIGHT*3),QSize(120,60)));
+    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-150,FILD_HIGHT*3),QSize(120,60)));
     timer->setStyleSheet(QString("font-size: %1px").arg(20));;
     timer->setText("Время: 0:00");
+    preparation=new QLabel(this);
+    preparation->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-110,FILD_HIGHT*10),QSize(60,120)));
+    preparation->setStyleSheet(QString("font-size: %1px").arg(40));;
+    preparation->setText("7");
+
 
 }
 
@@ -89,11 +94,11 @@ void GameWindow::drowElements()
 void GameWindow::drowPythons()
 {
     for(int i=0;i<pythons.size();i++){
-        qDebug()<<pythons[i]->dots<<"\n";
+
         QPainter painter(this);
         QBrush brush;
 
-        painter.setBrush(QBrush(pythons[i]->color));
+       painter.setBrush(QBrush(pythons[i]->color));
        for(int j=0;j<pythons[i]->dots.size();j++){
 
             painter.drawRect(QRect(DOT_HIGHT*pythons[i]->dots[j].rx(), DOT_WIDTH*pythons[i]->dots[j].ry(), DOT_WIDTH, DOT_HIGHT));
@@ -126,6 +131,8 @@ void GameWindow::sockConnect()
 
 
     data = QString(socket->readLine()).trimmed();
+
+
 
 
     doc=QJsonDocument::fromJson(data.toUtf8(),&docERR);
@@ -166,11 +173,21 @@ void GameWindow::sockConnect()
             }
 
         }
-        score->setText("Очки: "+doc.object().value("points").toString());
+        if(doc.object().value(("type")).toString()=="prepareTimer"){
+            preparation->setText(doc.object().value(("time")).toString());
+            if(doc.object().value(("time")).toString().toInt()==0){
+                preparation->setText("");
+                startGame=true;
+            }
 
+        }
+        score->setText("Очки: "+doc.object().value("points").toString());
         repaint();
+        if(startGame){
         pythons.clear();
         fruits.clear();
+        }
+
     }
     }
 }

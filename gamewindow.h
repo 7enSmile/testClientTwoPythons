@@ -38,12 +38,14 @@ private:
     QPushButton *buttExit;
     QLabel *score;
     QLabel *timer;
+    QLabel *preparation;
     QTcpSocket *socket;
     QString data;
     QJsonDocument doc;
     QJsonParseError docERR;
     QVector<QPoint>fruits;
     QVector<Python*>pythons;
+    bool startGame=false;
     void drowFruits();
 
 
