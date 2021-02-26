@@ -14,6 +14,8 @@
 #include <QPoint>
 #include <QKeyEvent>
 #include <QtGui>
+#include <QColor>
+#include "python.h"
 class GameWindow:public QWidget
 {
      Q_OBJECT
@@ -32,7 +34,7 @@ private:
     void paintEvent(QPaintEvent *event)override;
     void drowArea();
     void drowElements();
-    void drowPython(QVector<QPoint>,Qt::GlobalColor);
+    void drowPythons();
     QPushButton *buttExit;
     QLabel *score;
     QLabel *timer;
@@ -40,9 +42,8 @@ private:
     QString data;
     QJsonDocument doc;
     QJsonParseError docERR;
-    QVector<QPoint>dots;
-    QVector<QPoint>dots2;
     QVector<QPoint>fruits;
+    QVector<Python*>pythons;
     void drowFruits();
 
 

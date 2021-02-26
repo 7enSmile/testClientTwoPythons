@@ -5,7 +5,9 @@ QT+=network
 
 SOURCES += \
         gamewindow.cpp \
-        main.cpp
+        main.cpp \
+        python.cpp
 
 HEADERS += \
-    gamewindow.h
+    gamewindow.h \
+    python.h
