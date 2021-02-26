@@ -4,7 +4,7 @@ GameWindow::GameWindow()
 {
     setFocus();
 
-    resize(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH,DOT_HIGHT*FILD_HIGHT);
+    resize(DOT_WIDTH*FILD_WIDTH+9*FILD_WIDTH,DOT_HIGHT*FILD_HIGHT);
     this->setWindowTitle("TwoPythons");
 
     drowElements();
@@ -68,22 +68,28 @@ void GameWindow::drowArea()
         painter.drawLine(0,i*DOT_HIGHT,FILD_HIGHT*DOT_HIGHT,i*DOT_HIGHT);
     }
 
+    if(pythons.size()>1){
+         painter.setBrush((QBrush(myColor,Qt::SolidPattern)));
+         painter.drawEllipse(DOT_WIDTH*21,DOT_HIGHT*8,FILD_WIDTH*5,FILD_HIGHT*5);
+
+    }
+
 }
 
 void GameWindow::drowElements()
 {
     buttExit = new QPushButton("Выход",this);
-    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-150,DOT_HIGHT*FILD_HIGHT-70),QSize(100,50)));
+    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT*FILD_HIGHT-70),QSize(100,50)));
     score = new QLabel(this);
-    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-150,FILD_HIGHT),QSize(100,50)));
+    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,FILD_HIGHT),QSize(100,50)));
     score->setStyleSheet(QString("font-size: %1px").arg(20));;
     score->setText("Очки: 0");
     timer = new QLabel(this);
-    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-150,FILD_HIGHT*3),QSize(120,60)));
+    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,FILD_HIGHT*3),QSize(120,60)));
     timer->setStyleSheet(QString("font-size: %1px").arg(20));;
     timer->setText("Время: 0:00");
     preparation=new QLabel(this);
-    preparation->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-110,FILD_HIGHT*10),QSize(60,120)));
+    preparation->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-125,FILD_HIGHT*10),QSize(20,120)));
     preparation->setStyleSheet(QString("font-size: %1px").arg(40));;
     preparation->setText("7");
 
@@ -142,6 +148,7 @@ void GameWindow::sockConnect()
 
 
 
+
     doc=QJsonDocument::fromJson(data.toUtf8(),&docERR);
     QPoint teamp;
 
@@ -152,6 +159,7 @@ void GameWindow::sockConnect()
             QJsonArray docArPythons=doc.object().value("pythons").toArray();
             QJsonArray docArPythonCoords;
             QJsonArray docArPythonCoolor;
+            QJsonArray docArMyPythonCoolor=doc.object().value("myColor").toArray();
 
             QJsonArray docArFruits=doc.object().value("coordinatesFruits").toArray();
             for(int i=0;i<docArPythons.count();i++){
@@ -178,6 +186,9 @@ void GameWindow::sockConnect()
               teamp.ry()=docArFruits[i].toObject().value("y").toString().toInt();
               fruits.append(teamp);
             }
+            myColor.setRgb(docArMyPythonCoolor[0].toString().toInt(),docArMyPythonCoolor[1].toString().toInt(),docArMyPythonCoolor[2].toString().toInt());
+            qDebug()<<docArMyPythonCoolor[0].toString();
+
 
         }
         if(doc.object().value(("type")).toString()=="prepareTimer"){

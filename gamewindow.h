@@ -47,6 +47,7 @@ private:
     QVector<Python*>pythons;
     bool startGame=false;
     void drowFruits();
+    QColor myColor;
 
 
 };
