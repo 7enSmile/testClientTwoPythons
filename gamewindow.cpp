@@ -6,12 +6,7 @@ GameWindow::GameWindow()
 
 
     this->setWindowTitle("TwoPythons");
-    if(QApplication::desktop()->screenGeometry().height()>1080){
-        DOT_WIDTH=100;
-        DOT_HIGHT=100;
-    }
     resize(DOT_WIDTH*FILD_WIDTH+DOT_WIDTH*3,DOT_HIGHT*FILD_HIGHT);
-
     drowElements();
     socket=new QTcpSocket(this);
 
@@ -75,7 +70,7 @@ void GameWindow::drowArea()
 
     if(pythons.size()>1){
          painter.setBrush((QBrush(myColor,Qt::SolidPattern)));
-         painter.drawEllipse(DOT_WIDTH*21,DOT_HIGHT*6,FILD_WIDTH*6,FILD_HIGHT*6);
+         painter.drawEllipse(DOT_WIDTH*20.6,DOT_HIGHT*6,FILD_WIDTH*4,FILD_HIGHT*4);
 
     }
 
@@ -84,17 +79,17 @@ void GameWindow::drowArea()
 void GameWindow::drowElements()
 {
     buttExit = new QPushButton("Выход",this);
-    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT*FILD_HIGHT-DOT_HIGHT),QSize(DOT_HIGHT*2,DOT_HIGHT/2)));
+    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-DOT_WIDTH*4.5,DOT_HIGHT*FILD_HIGHT-DOT_HIGHT*2),QSize(DOT_WIDTH*2,DOT_HIGHT)));
     score = new QLabel(this);
-    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT),QSize(DOT_HIGHT*2,DOT_HIGHT)));
-    score->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT/3));;
+    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-DOT_WIDTH*4.5,DOT_HIGHT),QSize(DOT_HIGHT*2,DOT_HIGHT)));
+    score->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT/2));;
     score->setText("Очки: 0");
     timer = new QLabel(this);
-    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT+DOT_HIGHT),QSize(DOT_HIGHT*3,DOT_HIGHT)));
-    timer->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT/3));;
+    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-DOT_WIDTH*4.9,DOT_HIGHT+DOT_HIGHT),QSize(DOT_HIGHT*3,DOT_HIGHT)));
+    timer->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT/2));;
     timer->setText("Время: 0:00");
     preparation=new QLabel(this);
-    preparation->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+11*FILD_WIDTH-DOT_HIGHT,DOT_HIGHT*4),QSize(DOT_HIGHT*2,DOT_HIGHT)));
+    preparation->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+12.5*FILD_WIDTH-DOT_WIDTH*4.9,DOT_HIGHT*4),QSize(DOT_HIGHT*2,DOT_HIGHT)));
     preparation->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT));;
     preparation->setText("7");
 

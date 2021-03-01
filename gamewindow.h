@@ -17,7 +17,7 @@
 #include <QColor>
 #include "python.h"
 #include <QApplication>
-#include <QDesktopWidget>
+
 class GameWindow:public QWidget
 {
      Q_OBJECT
