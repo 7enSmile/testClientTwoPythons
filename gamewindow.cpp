@@ -4,13 +4,18 @@ GameWindow::GameWindow()
 {
     setFocus();
 
-    resize(DOT_WIDTH*FILD_WIDTH+9*FILD_WIDTH,DOT_HIGHT*FILD_HIGHT);
+
     this->setWindowTitle("TwoPythons");
+    if(QApplication::desktop()->screenGeometry().height()>1080){
+        DOT_WIDTH=100;
+        DOT_HIGHT=100;
+    }
+    resize(DOT_WIDTH*FILD_WIDTH+DOT_WIDTH*3,DOT_HIGHT*FILD_HIGHT);
 
     drowElements();
     socket=new QTcpSocket(this);
 
-    socket->connectToHost("127.0.0.1",58);
+    socket->connectToHost("127.0.0.1",5555);
     connect(socket,SIGNAL(readyRead()),this,SLOT(sockConnect()));
     char str[100];
     std::string str2="{\"globalType\":\"connection\",\"type\":\"test\"}\r\n\r\n";
@@ -70,7 +75,7 @@ void GameWindow::drowArea()
 
     if(pythons.size()>1){
          painter.setBrush((QBrush(myColor,Qt::SolidPattern)));
-         painter.drawEllipse(DOT_WIDTH*21,DOT_HIGHT*8,FILD_WIDTH*5,FILD_HIGHT*5);
+         painter.drawEllipse(DOT_WIDTH*21,DOT_HIGHT*6,FILD_WIDTH*6,FILD_HIGHT*6);
 
     }
 
@@ -79,18 +84,18 @@ void GameWindow::drowArea()
 void GameWindow::drowElements()
 {
     buttExit = new QPushButton("Выход",this);
-    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT*FILD_HIGHT-70),QSize(100,50)));
+    buttExit->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT*FILD_HIGHT-DOT_HIGHT),QSize(DOT_HIGHT*2,DOT_HIGHT/2)));
     score = new QLabel(this);
-    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,FILD_HIGHT),QSize(100,50)));
-    score->setStyleSheet(QString("font-size: %1px").arg(20));;
+    score->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT),QSize(DOT_HIGHT*2,DOT_HIGHT)));
+    score->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT/3));;
     score->setText("Очки: 0");
     timer = new QLabel(this);
-    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,FILD_HIGHT*3),QSize(120,60)));
-    timer->setStyleSheet(QString("font-size: %1px").arg(20));;
+    timer->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-160,DOT_HIGHT+DOT_HIGHT),QSize(DOT_HIGHT*3,DOT_HIGHT)));
+    timer->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT/3));;
     timer->setText("Время: 0:00");
     preparation=new QLabel(this);
-    preparation->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+10*FILD_WIDTH-125,FILD_HIGHT*10),QSize(20,120)));
-    preparation->setStyleSheet(QString("font-size: %1px").arg(40));;
+    preparation->setGeometry(QRect(QPoint(DOT_WIDTH*FILD_WIDTH+11*FILD_WIDTH-DOT_HIGHT,DOT_HIGHT*4),QSize(DOT_HIGHT*2,DOT_HIGHT)));
+    preparation->setStyleSheet(QString("font-size: %1px").arg(DOT_HIGHT));;
     preparation->setText("7");
 
 

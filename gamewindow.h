@@ -16,6 +16,8 @@
 #include <QtGui>
 #include <QColor>
 #include "python.h"
+#include <QApplication>
+#include <QDesktopWidget>
 class GameWindow:public QWidget
 {
      Q_OBJECT
@@ -26,8 +28,8 @@ public:
 public slots:
     void sockConnect();
 private:
-    static const int DOT_WIDTH=40;
-    static const int DOT_HIGHT=40;
+    int DOT_WIDTH=40;
+    int DOT_HIGHT=40;
     static const int FILD_WIDTH=20;
     static const int FILD_HIGHT=20;
     void drowWindow();
